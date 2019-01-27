@@ -1,0 +1,88 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="description" content="Vanilla javascript plugin for building nice responsive timetables">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Timetable.js demo</title>
+    <link rel="stylesheet" href="styles/plugin.css">
+    <!--<link rel="stylesheet" href="styles/timetablejs.css">-->
+    <link rel="stylesheet" href="styles/demo.css">
+  </head>
+  <body>
+
+    <div class="hero-unit">
+      <h1>Timetable.js demo</h1>
+      <p>Vanilla javascript plugin for building nice responsive timetables. More info on <a href="https://github.com/Grible/timetable.js" target="_blank">Github</a>.</p>
+    </div>
+
+    <div class="timetable"></div>
+
+    <script src="scripts/timetable.js"></script>
+    <script>
+      function formatAmPm(date) {
+        var hours = date.getHours();
+        var minutes = date.getMinutes();
+        var ampm = hours >= 12 ? 'pm' : 'am';
+        hours = hours % 12;
+        hours = hours ? '0'+hours : 12;
+        minutes = minutes < 10 ? '0'+minutes : minutes;
+
+        var strTime;
+        if(minutes=='00'){
+          strTime = hours + ' ' + ampm;
+        }
+        else strTime = hours + ':' + minutes + ' ';
+        return strTime;
+      }
+      console.log(formatAmPm(new Date(2015,7,17,9,00)));
+      console.log(formatAmPm(new Date(2015,7,17,9,6)));
+      console.log(formatAmPm(new Date(2015,7,17,13,30)));
+    </script>
+
+
+    <script>
+      var timetable = new Timetable();
+
+      timetable.setScope(9,3);
+
+      timetable.addLocations(['Rotterdam', 'Madrid', 'Los Angeles', 'London', 'New York', 'Jakarta',
+        'Tokyo','Test1','Test2','Test3','Test4','Test5','Test6','Test7','Test8','Test9','Test10']);
+
+      timetable.addEvent('Sightseeing', 'Rotterdam', new Date(2015,7,17,9,00), new Date(2015,7,17,11,30), { url: '#' });
+      timetable.addEvent('Zumba', 'Madrid', new Date(2015,7,17,12), new Date(2015,7,17,13), { url: '#' });
+      timetable.addEvent('Zumbu', 'Madrid', new Date(2015,7,17,13,30), new Date(2015,7,17,15), { url: '#' });
+      timetable.addEvent('Lasergaming', 'London', new Date(2015,7,17,17,45), new Date(2015,7,17,19,30), { class: 'vip-only', data: { maxPlayers: 14, gameType: 'Capture the flag' } });
+      timetable.addEvent('All-you-can-eat grill', 'New York', new Date(2015,7,17,21), new Date(2015,7,18,1,30), { url: '#' });
+      timetable.addEvent('Hackathon', 'Tokyo', new Date(2015,7,17,11,30), new Date(2015,7,17,20)); // options attribute is not used for this event
+      timetable.addEvent('Tokyo Hackathon Livestream', 'Los Angeles', new Date(2015,7,17,12,30), new Date(2015,7,17,16,15)); // options attribute is not used for this event
+      timetable.addEvent('Lunch', 'Jakarta', new Date(2015,7,17,9,30), new Date(2015,7,17,11,45), { onClick: function(event) {
+        window.alert('You clicked on the ' + event.name + ' event in ' + event.location + '. This is an example of a click handler');
+      }});
+      timetable.addEvent('Cocktails', 'Rotterdam', new Date(2015,7,18,00,00), new Date(2015,7,18,02,00), { class: 'vip-only' });
+      timetable.addEvent('Cocktails', 'Test1', new Date(2015,7,18,00,00), new Date(2015,7,18,02,00), { class: 'vip-only' });
+      timetable.addEvent('Hackathon', 'Test2', new Date(2015,7,17,11,30), new Date(2015,7,17,20)); // options attribute is not used for this event
+      timetable.addEvent('Sightseeing', 'Test3', new Date(2015,7,17,9,00), new Date(2015,7,17,11,30), { url: '#' });
+      timetable.addEvent('Sightseeing', 'Test4', new Date(2015,7,17,9,00), new Date(2015,7,17,11,30), { url: '#' });
+      timetable.addEvent('Zumbu', 'Test5', new Date(2015,7,17,13,30), new Date(2015,7,17,15), { url: '#' });
+      timetable.addEvent('Zumbu', 'Test6', new Date(2015,7,17,13,30), new Date(2015,7,17,15), { url: '#' });
+      timetable.addEvent('Zumbu', 'Test7', new Date(2015,7,17,13,30), new Date(2015,7,17,15), { url: '#' });
+      timetable.addEvent('Zumbu', 'Test8', new Date(2015,7,17,13,30), new Date(2015,7,17,15), { url: '#' });
+      timetable.addEvent('Lasergaming', 'Test9', new Date(2015,7,17,17,45), new Date(2015,7,17,19,30), { class: 'vip-only', data: { maxPlayers: 14, gameType: 'Capture the flag' } });
+      timetable.addEvent('All-you-can-eat grill', 'Test10', new Date(2015,7,17,21), new Date(2015,7,18,1,30), { url: '#' });
+
+      var renderer = new Timetable.Renderer(timetable);
+      renderer.draw('.timetable');
+    </script>
+
+    <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->
+    <script>
+      (function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=
+      function(){(b[l].q=b[l].q||[]).push(arguments)});b[l].l=+new Date;
+      e=o.createElement(i);r=o.getElementsByTagName(i)[0];
+      e.src='//www.google-analytics.com/analytics.js';
+      r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));
+      ga('create','UA-37417680-5');ga('send','pageview');
+    </script>
+</body>
+</html>
